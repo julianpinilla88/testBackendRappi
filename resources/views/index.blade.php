@@ -1,6 +1,7 @@
 @extends('layout.defaultNav')
 
 @section('content')
+    @include('message.message')
     @include('message.error')
     {!! Form::open(['route'=>'matriz.store', 'method'=>'POST']) !!}
     <div class="form-group">
