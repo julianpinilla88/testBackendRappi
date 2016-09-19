@@ -73,4 +73,12 @@ class MatrizController extends Controller
         return $this->index();
     }
 
+    /**
+     * Redirect to index 
+     * @return \Illuminate\Http\Response
+     */
+    public function show(){
+        return $this->index();
+    }
+
 }

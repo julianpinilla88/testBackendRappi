@@ -13,6 +13,8 @@ class Service
 {
 
     const PATH_JSON_MATRIZ = _PATH_PRIVADO . 'public/matriz.json';//Path ubicacion matriz
+    const MSJ_UPD_LIMIT_CASO = 'Se supero el numero de casos';
+    const MSJ_UPD_LIMIT_OPERACION = 'Se supero el numero de operaciones';
 
     /**
      * Metodo que valida si el archivo matriz.json existe
@@ -67,6 +69,7 @@ class Service
         $arrOpe = explode(' ', trim($operacion));
         $dataMatrizJson = file_get_contents(self::PATH_JSON_MATRIZ);
         $arrDataMatriz = json_decode($dataMatrizJson, true);
+        $arrOpe[0] = strtoupper($arrOpe[0]);
         if ($arrOpe[0] == 'UPDATE') {
             return $this->actualizaMatriz($arrDataMatriz, $arrOpe, $operacion);
         } elseif ($arrOpe[0] == 'QUERY') {
@@ -92,7 +95,7 @@ class Service
             $arrDataMatriz['ejecucion']['cantEjecucion'] += 1;
         } else {
             return ['codResp' => 0,
-                'msj' => 'Se supero el numero de casos',
+                'msj' => self::MSJ_UPD_LIMIT_CASO,
                 'operacion' => $arrDataMatriz['operacion']];
         }
 
@@ -119,7 +122,7 @@ class Service
             $arrDataMatriz['ejecucion']['cantEjecucion'] += 1;
         } else {
             return ['codResp' => 0,
-                'msj' => 'Se supero el numero de operaciones',
+                'msj' => self::MSJ_UPD_LIMIT_OPERACION,
                 'operacion' => $arrDataMatriz['operacion']];
         }
 
