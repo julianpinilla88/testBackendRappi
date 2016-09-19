@@ -14,6 +14,11 @@ class ExampleTest extends TestCase
     public function testBasicExample()
     {
         $this->visit('/')
-             ->see('Laravel 5');
+            ->submitForm('Iniciar', [
+                'txtNumCaso'       => '2',
+                'txtMatriz'      => '4 5',
+            ])
+            ->onPage('/matriz/store')
+            ->assertRedirectedToRoute('/matriz');;
     }
 }
