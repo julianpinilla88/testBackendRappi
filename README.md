@@ -13,9 +13,11 @@ Prueba tecnica para cargo BackEnd Developer Grability|Rappi
 
 Laravel estandariza el patron de diseño MVC, en el cual para poder interrelacionar y etructurarlo adecuadamente se utilizaron las siguientes capas que conforman MVC
 
-+ Presentación: 
-![ScreenShot](http://getbootstrap.com/apple-touch-icon.png) - ![ScreenShot](https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/03/1427031865laravelblade.png)
-para la capa de presentación se utilizo Bootstrap y HTML por medio del motor de plantillas de laravel Blade
++ Presentación: para la capa de presentación se utilizo Bootstrap y HTML por medio del motor de plantillas de laravel Blade
+![ScreenShot](http://ec2-52-23-233-165.compute-1.amazonaws.com/presentacion.png)
+
+En el directorio \resources\views\layout 
+
 
 + Register: Register an user.
 + Role: Update the user role.
