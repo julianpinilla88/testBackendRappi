@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Service\Service;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class FrontController extends Controller
 {
@@ -18,5 +16,4 @@ class FrontController extends Controller
     {
         return view('index');
     }
-
 }
