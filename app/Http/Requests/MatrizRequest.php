@@ -24,7 +24,7 @@ class MatrizRequest extends Request
     public function rules()
     {
         return [
-            'txtOpeCaso' => 'required'
+            'txtOpeCaso' => 'required',
         ];
     }
 

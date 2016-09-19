@@ -59,6 +59,12 @@ class ValidaMatrizService
                 return ['codResp' => 0,
                     'msj' => 'La operacion UPDATE debe ejecutarse de la siguiente manera Ejemplo: UPDATE x y z W '];
 
+            if (!is_numeric($arrOperacion[1]) OR !is_numeric($arrOperacion[2]) OR !is_numeric($arrOperacion[3])
+                OR !is_numeric($arrOperacion[4])
+            )
+                return ['codResp' => 0,
+                    'msj' => 'La operacion UPDATE debe ejecutarse de la siguiente manera Ejemplo: UPDATE x y z W donde x y z W son numericos '];
+
             if ($arrOperacion[1] < 1 OR $arrOperacion[2] < 1 OR $arrOperacion[3] < 1
                 OR $arrOperacion[1] > $dataMatrizJson['n'] OR $arrOperacion[2] > $dataMatrizJson['n']
                 OR $arrOperacion[3] > $dataMatrizJson['n']
@@ -75,6 +81,13 @@ class ValidaMatrizService
             if (sizeof($arrOperacion) <> 7)
                 return ['codResp' => 0,
                     'msj' => 'La operacion QUERY debe ejecutarse de la siguiente manera Ejemplo: QUERY x1 y1 z1 x2 y2 z2 '];
+
+            if (!is_numeric($arrOperacion[1]) OR !is_numeric($arrOperacion[2]) OR !is_numeric($arrOperacion[3])
+                AND !is_numeric($arrOperacion[4]) OR !is_numeric($arrOperacion[5]) OR !is_numeric($arrOperacion[6])
+            )
+                return ['codResp' => 0,
+                    'msj' => 'La operacion QUERY debe ejecutarse de la siguiente manera Ejemplo: QUERY x1 y1 z1 x2 y2 z2 donde x y z son numericos '];
+
             if ($arrOperacion[1] > $arrOperacion[4] OR $arrOperacion[1] < 1 OR $arrOperacion[1] > $dataMatrizJson['n']
                 OR $arrOperacion[4] < 1 OR $arrOperacion[4] > $dataMatrizJson['n']
             )

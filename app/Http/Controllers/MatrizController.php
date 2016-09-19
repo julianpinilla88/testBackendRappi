@@ -37,7 +37,7 @@ class MatrizController extends Controller
     public function store(FrontRequest $request)
     {
         $validaMatriz = ValidaMatrizService::validaParmBasico($request->all());
-        if($validaMatriz['codResp'] == 0){
+        if ($validaMatriz['codResp'] == 0) {
             Session::flash('message', $validaMatriz['msj']);
             Session::flash('class', 'danger');
             return Redirect::to('/');
@@ -51,14 +51,13 @@ class MatrizController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\MatrizRequest $request
      * @return \Illuminate\Http\Response
      */
     public function update(MatrizRequest $request)
     {
         $validaMatriz = ValidaMatrizService::validaParmOperacion($request['txtOpeCaso']);
-        if($validaMatriz['codResp'] == 0){
+        if ($validaMatriz['codResp'] == 0) {
             Session::flash('message', $validaMatriz['msj']);
             Session::flash('class', 'danger');
             return $this->index();
