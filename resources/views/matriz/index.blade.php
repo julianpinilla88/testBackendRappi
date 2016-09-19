@@ -4,6 +4,7 @@
     @include('message.message')
     @include('message.error')
     {!! Form::open(['route'=>'matriz.update', 'method'=>'PUT']) !!}
+    <a href="{{route('index')}}">Volver a iniciar la prueba</a>
     <div class="form-group">
         <div>
             {!! Form::label('Ingrese la operaci&oacute;n: :') !!}
