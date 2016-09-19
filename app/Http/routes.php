@@ -12,11 +12,6 @@
 */
 
 
-Route::resource('/','FrontController@index');
-Route::resource('login','LoginController');
-Route::resource('user','UserController');
-Route::resource('role','RoleXUserController');
-Route::resource('password','PasswordController');
-Route::get('auth/facebook', 'LoginController@redirectToProviderFacebook')->name('facebook.login');
-Route::get('auth/facebook/callback', 'LoginController@handleProviderCallbackFacebook');
+Route::resource('/','FrontController');
+Route::resource('matriz','MatrizController');
 

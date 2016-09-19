@@ -11,158 +11,134 @@ use Session;
 
 class Service
 {
+
+    const PATH_JSON_MATRIZ = _PATH_PRIVADO . 'public/matriz.json';//Path ubicacion matriz
+
     /**
-     * This method register the especific user
+     * Metodo que valida si el archivo matriz.json existe
      *
      * @param array $arrParms
-     * @return static
      */
-    public function createUser($arrParms)
+    public function existeFileJson($arrParms)
     {
-        $arrParms['create_date'] = date('Y-m-d H:i:s');
-        $arrParms['id_est_user'] = 1;
-        return User::create($arrParms);
+        if (file_exists(self::PATH_JSON_MATRIZ))
+            $this::creaFileJson([]);
+
+        $this::construirJson($arrParms);
     }
 
     /**
-     * This method register by default de user role customer
+     * Metodo que crea el archivo matriz.json
      *
-     * @param int $idUser
+     * @param array $arrParm
      */
-    public function createUserRole($idUser)
+    private function creaFileJson($arrParm)
     {
-        $arrParms['id_user'] = $idUser;
-        $arrParms['id_role'] = 3;
-        $arrParms['create_date'] = date('Y-m-d H:i:s');
-        RoleXUser::create($arrParms);
-
+        $json_string = json_encode($arrParm);
+        file_put_contents(self::PATH_JSON_MATRIZ, $json_string);
     }
 
     /**
-     * This method update the user row
+     * Metodo que construye arreglo inicial y lo
+     * transforma en un json para su respectiva consulta
      *
-     * @param int $idUser
      * @param array $arrParms
      */
-    public function updateUser($idUser, $arrParms)
+    private function construirJson($arrParms)
     {
-        $arrPar['modified_date'] = date('Y-m-d H:i:s');
-        User::where('id_user', $idUser)->update($arrParms);
+        $arrJson['t'] = $arrParms['txtNumCaso'];
+        $arrMatrizOpe = explode(' ', trim($arrParms['txtMatriz']));
+        $arrJson['n'] = $arrMatrizOpe[0];
+        $arrJson['m'] = $arrMatrizOpe[1];
+        $arrJson['ejecucion'] = ['cantUpdate' => 0, 'cantEjecucion' => 0];
+        $this::creaFileJson($arrJson);
     }
 
     /**
-     * This method validated if exist the user
+     * Metodo que valida el tipo de ejecucion a realizar
+     * 'UPDATE' -> actualiza la posiscion respectiva
+     * 'QUERY' -> Ejecuta operacion de suma sobre las posiciones
      *
-     * @param $email
-     * @return bool
-     */
-    public function existUser($email)
-    {
-        $objUser = User::where('email', $email)->first();
-        return ((!empty($objUser->id_user)) ? $objUser->id_user : 0);
-    }
-
-    /**
-     * This methos get all status of the user
-     *
+     * @param array $operacion
      * @return array
      */
-    public function getRow($nomModel, $nomTable)
+    public function validaOperacion($operacion)
     {
-        $arrModel = [];
-        $objModel = $nomModel::all();
-        foreach ($objModel as $model) {
-            $id = 'id_'.$nomTable;
-            $nom = 'nom_'.$nomTable;
-            $arrModel[$model->$id] = $model->$nom;
+        $arrOpe = explode(' ', trim($operacion));
+        $dataMatrizJson = file_get_contents(self::PATH_JSON_MATRIZ);
+        $arrDataMatriz = json_decode($dataMatrizJson, true);
+        if ($arrOpe[0] == 'UPDATE') {
+            return $this->actualizaMatriz($arrDataMatriz, $arrOpe, $operacion);
+        } elseif ($arrOpe[0] == 'QUERY') {
+            return $this->calculaMatriz($arrDataMatriz, $arrOpe, $operacion);
         }
-        return $arrModel;
     }
 
     /**
-     * This methos get all permission available for the logged user
+     * Metodo que actualiza el valor de la posicion especificada
+     * y calcula la cantidad de ejecuciones realizadas
      *
-     * @param $idUser
-     * @return mixed
-     */
-    public function getPermissionByRole($idUser)
-    {
-        $objUserRole = RoleXUser::where('id_user', $idUser)->first();
-        $objPermission = RoleXPermission::where('id_role', $objUserRole->id_role)->get();
-        Session::set('id_role', $objUserRole->id_role);
-        return $objPermission;
-    }
-
-    /**
-     * This methos get an especific permission according to Module and Permission
-     *
-     * @param int $idModule
-     * @param int $idPermission
-     * @return mixed
-     */
-    public function getPermission($idModule, $idPermission, $idRole)
-    {
-        $objUserRole = RoleXPermission::where('id_module', $idModule)
-            ->where('id_permission', $idPermission)
-            ->where('id_role', $idRole)->first();
-
-        return $objUserRole;
-    }
-
-    /**
-     * This method get all relation on the user by role
-     *
+     * @param array $arrDataMatriz
+     * @param array $arrOpe
+     * @param array $operacion
      * @return array
      */
-    public function getUserXRole()
+    private function actualizaMatriz($arrDataMatriz, $arrOpe, $operacion)
     {
-        $arrUserXRole = [];
-        $objUser = User::all();
-
-        foreach ($objUser as $user) {
-            $objRoleXUser = RoleXUser::where('id_user', $user->id_user)->first();
-            $objRole = Role::where('id_role', $objRoleXUser['id_role'])->first();
-            $user->nom_role = $objRole['nom_role'];
-            $user->id_role_xuser = $objRoleXUser['id_role_xuser'];
-            $arrUserXRole[] = $user;
+        if ($arrDataMatriz['ejecucion']['cantUpdate'] < $arrDataMatriz['t']
+            && $arrDataMatriz['ejecucion']['cantEjecucion'] < $arrDataMatriz['m']
+        ) {
+            $arrDataMatriz['ejecucion']['cantUpdate'] += 1;
+            $arrDataMatriz['ejecucion']['cantEjecucion'] += 1;
+        } else {
+            return ['codResp' => 0,
+                'msj' => 'Se supero el numero de casos',
+                'operacion' => $arrDataMatriz['operacion']];
         }
 
-        return $arrUserXRole;
+        $arrDataMatriz['matriz'][$arrOpe[1]][$arrOpe[2]][$arrOpe[3]] = $arrOpe[4];
+        $arrDataMatriz['operacion'][] = ['operacion' => $operacion, 'resp' => 'OK'];
+
+        $this->creaFileJson($arrDataMatriz);
+        return ['codResp' => 1,
+            'operacion' => $arrDataMatriz['operacion']];
     }
 
     /**
-     * This method normalize the fields form to columns of database
+     * Metodo que realiza la suma o calculo sumatorio sobre
+     * las posiciones que se encuentren en el rango asignado
      *
-     * @param array $arrPar
+     * @param array $arrDataMatriz
+     * @param array $arrOpe
+     * @param array $operacion
      * @return array
      */
-    public function normParUser($arrPar)
+    private function calculaMatriz($arrDataMatriz, $arrOpe, $operacion)
     {
-        $arrReturn = [];
-        foreach ($arrPar as $key => $value) {
-            switch ($key) {
-                case 'txtName':
-                case 'name':
-                    $arrReturn['name_user'] = $value;
-                    break;
-                case 'txtEmail':
-                case 'email':
-                    $arrReturn['email'] = $value;
-                    break;
-                case 'txtPhoneNumber':
-                    $arrReturn['phone_number'] = $value;
-                    break;
-                case 'txtPassword':
-                case 'password':
-                    $arrReturn['password'] = bcrypt($value);
-                    break;
-                case 'optEst':
-                case 'id_est_user':
-                    $arrReturn['id_est_user'] = $value;
-                    break;
+        if ($arrDataMatriz['ejecucion']['cantEjecucion'] < $arrDataMatriz['m']) {
+            $arrDataMatriz['ejecucion']['cantEjecucion'] += 1;
+        } else {
+            return ['codResp' => 0,
+                'msj' => 'Se supero el numero de operaciones',
+                'operacion' => $arrDataMatriz['operacion']];
+        }
+
+        $suma = 0;
+        for ($i = $arrOpe[1]; $i <= $arrOpe[4]; $i++) {
+            for ($j = $arrOpe[2]; $j <= $arrOpe[5]; $j++) {
+                for ($k = $arrOpe[3]; $k <= $arrOpe[6]; $k++) {
+                    if (isset($arrDataMatriz['matriz'][$i][$j][$k])) {
+                        $suma += $arrDataMatriz['matriz'][$i][$j][$k];
+                    }
+                }
             }
         }
 
-        return $arrReturn;
+        $arrDataMatriz['operacion'][] = ['operacion' => $operacion, 'resp' => $suma];
+        $this->creaFileJson($arrDataMatriz);
+        return ['codResp' => 1,
+            'operacion' => $arrDataMatriz['operacion']];
     }
+
+
 }
