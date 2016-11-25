@@ -1,9 +1,9 @@
 # testBackendGrability
-Prueba Técnica para el BackEnd de Grability
+Prueba Técnica para el BackEnd de Rappi
 
 ## Backend Software Developer Test
 
-Prueba tecnica para cargo BackEnd Developer Grability|Rappi
+Prueba tecnica para cargo BackEnd Developer Rappi
 
 ## Acceso a la prueba 
 
