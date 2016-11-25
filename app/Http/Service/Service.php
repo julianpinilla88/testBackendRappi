@@ -99,8 +99,8 @@ class Service
                 'operacion' => $arrDataMatriz['operacion']];
         }
 
-        $arrDataMatriz['matriz'][$arrOpe[1]][$arrOpe[2]][$arrOpe[3]] = $arrOpe[4];
-        $arrDataMatriz['operacion'][] = ['operacion' => $operacion, 'resp' => 'OK'];
+        $arrDataMatriz['matriz'][$arrOpe[1]][$arrOpe[2]][$arrOpe[3]] = strtoupper($arrOpe[4]);
+        $arrDataMatriz['operacion'][] = ['operacion' => strtoupper($operacion), 'resp' => 'OK'];
 
         $this->creaFileJson($arrDataMatriz);
         return ['codResp' => 1,
@@ -137,7 +137,7 @@ class Service
             }
         }
 
-        $arrDataMatriz['operacion'][] = ['operacion' => $operacion, 'resp' => $suma];
+        $arrDataMatriz['operacion'][] = ['operacion' => strtoupper($operacion), 'resp' => $suma];
         $this->creaFileJson($arrDataMatriz);
         return ['codResp' => 1,
             'operacion' => $arrDataMatriz['operacion']];

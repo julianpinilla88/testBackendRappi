@@ -47,7 +47,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-define('_PATH_PRIVADO', 'c:/xampp/htdocs/testBackendGrability/');
+define('_PATH_PRIVADO', 'c:/xampp/htdocs/testBackendRappi/');
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
