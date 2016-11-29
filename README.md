@@ -7,31 +7,27 @@ Prueba tecnica para cargo BackEnd Developer Rappi
 
 ## Acceso a la prueba 
 
-+ Enters from here to [test] (http://ec2-54-208-170-78.compute-1.amazonaws.com/testBackendRappi/public/)
++ Ingrese a la prueba aca: [test] (http://ec2-54-208-170-78.compute-1.amazonaws.com/testBackendRappi/public/)
 
 ## Ejemplo
 
-**Ejemplo 1:**
-2
-4 5
-UPDATE 2 2 2 4
-QUERY 1 1 1 3 3 3
-UPDATE 1 1 1 23
-QUERY 2 2 2 4 4 4
-QUERY 1 1 1 3 3 3
 
+Ejemplo
+--------
+    2
+	  4 5
+	  UPDATE 2 2 2 4
+	  QUERY 1 1 1 3 3 3
+	  UPDATE 1 1 1 23
+	  QUERY 2 2 2 4 4 4
+	  QUERY 1 1 1 3 3 3
+    2 4
+	  UPDATE 2 2 2 1
+	  QUERY 1 1 1 1 1 1
+	  QUERY 1 1 1 2 2 2
+	  QUERY 2 2 2 2 2 2
+    
 ![Alt text](http://ec2-54-208-170-78.compute-1.amazonaws.com/EJEMPLO1.jpg "Ejemplo 1")
-
-**Ejemplo 2:**
-2
-2 4
-UPDATE 2 2 2 1
-QUERY 1 1 1 1 1 1
-QUERY 1 1 1 2 2 2
-QUERY 2 2 2 2 2 2
-
-![Alt text](http://ec2-54-208-170-78.compute-1.amazonaws.com/EJEMPLO2.jpg "Ejemplo 2")
-
 
 ## Capas de aplicacion
 
