@@ -37,13 +37,11 @@ Laravel estandariza el patron de diseño MVC, en el cual para poder interrelacio
 
 + Directorio *\resources\views\layout* se encuentran las plantillas por defecto de la aplicacion y la implementación de bootstrap.
 + Directorio *\resources\views* se encuentra el index de la aplicación en ella se encuentra los input basicos para la prueba.
-+ Directorio *\resources\views\Matriz* se encuentra la plantilla para la ejecución de las operaciones UPDATE y QUERY
 + Directorio *\resources\views\message* se encuentran las plantillas para la presentación de mensajes de validación tanto propios como de laravel.
 
 **Negocio:** para la capa de negocio e implementación se utilizan controladores generados en PHP, el cual controla las acciones sobre las solicitudes que se generan en la capa de presentación.
 
 + Directorio *\app\Http\Controllers* se encuentran los controladores FrontController.php y MatrizController.php.
-+ Directorio *\app\Http\Requests* se encuentran los validadores de laravel FrontRequest.php y MatrizRequest.php.
 
 **Persistencia:** para la capa de persistencia se utiliza servicios en PHP, el cual ejecuta la solicitud indicada desde el controlador.
 
