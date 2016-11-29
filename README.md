@@ -27,7 +27,7 @@ Ejemplo
 	  QUERY 1 1 1 2 2 2
 	  QUERY 2 2 2 2 2 2
     
-![Alt text](http://ec2-54-208-170-78.compute-1.amazonaws.com/EJEMPLO1.jpg "Ejemplo 1")
+![Alt text](http://ec2-54-208-170-78.compute-1.amazonaws.com/EJEMPLO.jpg "Ejemplo 1")
 
 ## Capas de aplicacion
 
