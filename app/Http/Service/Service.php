@@ -46,12 +46,8 @@ class Service
      *
      * @param array $arrParms
      */
-    private function construirJson($arrParms)
+    private function construirJson($arrJson)
     {
-        $arrJson['t'] = $arrParms['txtNumCaso'];
-        $arrMatrizOpe = explode(' ', trim($arrParms['txtMatriz']));
-        $arrJson['n'] = $arrMatrizOpe[0];
-        $arrJson['m'] = $arrMatrizOpe[1];
         $arrJson['ejecucion'] = ['cantUpdate' => 0, 'cantEjecucion' => 0];
         $this::creaFileJson($arrJson);
     }
@@ -104,7 +100,7 @@ class Service
 
         $this->creaFileJson($arrDataMatriz);
         return ['codResp' => 1,
-            'operacion' => $arrDataMatriz['operacion']];
+            'operacion' => ['operacion' => strtoupper($operacion), 'resp' => 'OK']];
     }
 
     /**
@@ -140,7 +136,7 @@ class Service
         $arrDataMatriz['operacion'][] = ['operacion' => strtoupper($operacion), 'resp' => $suma];
         $this->creaFileJson($arrDataMatriz);
         return ['codResp' => 1,
-            'operacion' => $arrDataMatriz['operacion']];
+            'operacion' => ['operacion' => strtoupper($operacion), 'resp' => $suma]];
     }
 
 

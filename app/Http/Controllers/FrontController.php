@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Service\Service;
+use App\Http\Service\ValidaMatrizService;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -14,6 +15,7 @@ class FrontController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $arrResp = [];
+        return view('index', compact('arrResp'));
     }
 }

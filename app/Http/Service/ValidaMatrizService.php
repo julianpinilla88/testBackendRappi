@@ -18,6 +18,59 @@ class ValidaMatrizService
     const MSJ_QUERY_NUM_PERMITIDO_X = 'Los parametros de la operacion QUERY debe ser: 1 <= x1 <= x2 <= N';
     const MSJ_QUERY_NUM_PERMITIDO_Y = 'Los parametros de la operacion QUERY debe ser: 1 <= y1 <= y2 <= N';
     const MSJ_QUERY_NUM_PERMITIDO_Z = 'Los parametros de la operacion QUERY debe ser: 1 <= z1 <= z2 <= N';
+    const MSJ_FILE_EMPTY = 'Es necesario subir un archivo.txt que contenga la informacion respectiva';
+
+    public static function validaParm($nom_file)
+    {
+        if (empty($nom_file))
+            return ['codResp' => 0, 'msj' => self::MSJ_FILE_EMPTY];
+
+        $arrReturn = [];
+        $ruta_archivo = _PATH_PRIVADO . 'public/file/' . $nom_file;
+        $filas_archivo = file($ruta_archivo);
+        $objService = new Service();
+        $i = 1;
+        foreach ($filas_archivo as $filas) {
+            $arrVar = explode(' ', trim($filas));
+            if (sizeof($arrVar) == 1) {
+                if (trim($filas) < 1 OR trim($filas) > 50)
+                    return ['codResp' => 0, 'msj' => self::MSJ_CASO_NUM_PERMITIDO];
+
+                $arrJson['t'] = trim($filas);
+                $arrReturn['resp'][] = ['operacion' => 'T = ' . trim($filas), 'resp' => 'OK'];
+            } elseif (sizeof($arrVar) == 2) {
+                $error = self::validaParmBasico($arrVar);
+                if ($error['codResp'] == 0) {
+                    return $error;
+                } else {
+                    $arrJson['n'] = $arrVar[0];
+                    $arrJson['m'] = $arrVar[1];
+                    $objService->existeFileJson($arrJson);
+                    $arrReturn['resp'][] = ['operacion' => 'N = ' . $arrVar[0] . ' - M = ' . $arrVar[1], 'resp' => 'OK'];
+                }
+            } else {
+                if (!isset($arrJson['n']) OR !isset($arrJson['m']))
+                    return ['codResp' => 0, 'msj' => self::MSJ_CASO_POS_ARR];
+                $error = self::validaParmOperacion(trim($filas));
+                if ($error['codResp'] == 0) {
+                    return $error;
+                } else {
+                    $error = $objService->validaOperacion(trim($filas));
+                    if ($error['codResp'] == 0)
+                        $arrReturn['resp'][] = [trim($filas), $error['msj']];
+                    else
+                        $arrReturn['resp'][] = $error['operacion'];
+                }
+            }
+
+            $i++;
+
+
+        }
+
+        $arrReturn['codResp'] = 1;
+        return $arrReturn;
+    }
 
     /**
      * Metodo que valida los parametros basicos de entrada
@@ -27,16 +80,8 @@ class ValidaMatrizService
      * @param array $arrParm
      * @return array
      */
-    public static function validaParmBasico($arrParm)
+    public static function validaParmBasico($arrMatriz)
     {
-        $numCaso = $arrParm['txtNumCaso'];
-        $matrizEjecucion = $arrParm['txtMatriz'];
-
-        if ($numCaso < 1 OR $numCaso > 50)
-            return ['codResp' => 0,
-                'msj' => self::MSJ_CASO_NUM_PERMITIDO];
-
-        $arrMatriz = explode(' ', $matrizEjecucion);
         if (sizeof($arrMatriz) <> 2)
             return ['codResp' => 0,
                 'msj' => self::MSJ_CASO_POS_ARR];
