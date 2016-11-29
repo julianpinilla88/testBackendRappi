@@ -1,13 +1,37 @@
 # testBackendGrability
-Prueba Técnica para el BackEnd de Grability
+Prueba Técnica para el BackEnd de Rappi
 
 ## Backend Software Developer Test
 
-Prueba tecnica para cargo BackEnd Developer Grability|Rappi
+Prueba tecnica para cargo BackEnd Developer Rappi
 
 ## Acceso a la prueba 
 
-+ Enters from here to [test] (http://ec2-52-23-233-165.compute-1.amazonaws.com/testBackendGrability/public/)
++ Enters from here to [test] (http://ec2-54-208-170-78.compute-1.amazonaws.com/testBackendRappi/public/)
+
+## Ejemplo
+
+**Ejemplo 1:**
+2
+4 5
+UPDATE 2 2 2 4
+QUERY 1 1 1 3 3 3
+UPDATE 1 1 1 23
+QUERY 2 2 2 4 4 4
+QUERY 1 1 1 3 3 3
+
+![Alt text](http://ec2-54-208-170-78.compute-1.amazonaws.com/EJEMPLO1.jpg "Ejemplo 1")
+
+**Ejemplo 2:**
+2
+2 4
+UPDATE 2 2 2 1
+QUERY 1 1 1 1 1 1
+QUERY 1 1 1 2 2 2
+QUERY 2 2 2 2 2 2
+
+![Alt text](http://ec2-54-208-170-78.compute-1.amazonaws.com/EJEMPLO2.jpg "Ejemplo 2")
+
 
 ## Capas de aplicacion
 
@@ -35,7 +59,6 @@ Laravel estandariza el patron de diseño MVC, en el cual para poder interrelacio
 + Clase **MatrizController.php** es la clase encargada de redireccionar al index de ejecución de operaciones, y la que solicita la ejecucion de las operaciones UPDATE y QUERY.
 + Clase **Service.php** es la clase encargada de validar la existencia de el archivo matriz.json el cual consiste en la información respectiva a los parametros iniciales y las ejecuciones realizadas, en el caso en que no exista la aplicacion lo crea en el directorio *\public\matriz.json*. Tambien de acuerdo a la información registrada la clase contiene metodos que obtienen la información para su respectiva operación, ya sea creando una nueva posición de la matriz o sumando los valores de la matriz.
 + Clase **ValidaMatrizService.php** es la clase encargada de validar los valores ingresados ya sea el ingreso de T, N y M como las ejecuciones UPDATE x y z W o QUERY x1 y1 z1 x2 y2 z2.
-+ Archivo **index.php** el archivo se ubica en el directorio *\public* el cual se agrega una constante **PATH_PRIVADO** para poder ubicar el archivo matriz.json
 
 **Nota:** El archivo matriz.json es utilizado para no sobreutilizar la memoria disponible en el server y sobre la aplicación asi la aplicación es mas agil sobre la lectura de un archivo que contiene el arreglo de la información tanto de los parametros basicos como de las ejecuciones realizadas.
 
